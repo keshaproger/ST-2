@@ -1,5 +1,7 @@
-#include "circle.h"
 #include "tasks.h"
+#include "circle.h"
+
+#include <cmath>
 #include <gtest/gtest.h>
 
 TEST(CircleTest, RadiusUpdatesCorrectly) {
