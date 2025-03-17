@@ -5,6 +5,10 @@
 
 const double PI = 3.141592653589793;
 
+Circle::Circle() : radius(0) {
+    updateFromRadius();
+}
+
 Circle::Circle(double r) : radius(r) {
     updateFromRadius();
 }
