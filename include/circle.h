@@ -1,3 +1,5 @@
+// Copyright 2025 Коньков И.
+
 #ifndef CIRCLE_H
 #define CIRCLE_H
 
