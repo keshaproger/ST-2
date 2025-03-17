@@ -1,8 +1,7 @@
 // Copyright 2025 Коньков И.
 
-#ifndef CIRCLE_H
-#define CIRCLE_H
-
+#ifndef INCLUDE_CIRCLE_H_
+#define INCLUDE_CIRCLE_H_
 class Circle {
 private:
     double radius;
@@ -25,4 +24,4 @@ public:
     double getArea() const;
 };
 
-#endif // CIRCLE_H
+#endif // INCLUDE_CIRCLE_H_
