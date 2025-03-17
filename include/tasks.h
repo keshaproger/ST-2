@@ -1,9 +1,9 @@
 // Copyright 2025 Коньков И.
 
-#ifndef TASKS_H
-#define TASKS_H
+#ifndef INCLUDE_TASKS_H_
+#define INCLUDE_TASKS_H_
 
 double calculateGap();
 double calculatePoolCost();
 
-#endif // TASKS_H
+#endif // INCLUDE_TASKS_H_
