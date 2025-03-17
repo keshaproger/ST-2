@@ -3,17 +3,19 @@
 #include "tasks.h"
 #include "circle.h"
 
-double calculateGap() {
-    const double EARTH_RADIUS = 6378.1 * 1000; // в метрах
+double calculateGap(double delta) {
+    const double EARTH_RADIUS = 6378.1 * 1000;
     Circle earth(EARTH_RADIUS);
 
-    double newFerence = earth.getFerence() + 1; // добавляем 1 метр к длине
+    double newFerence = earth.getFerence() + 1;
     earth.setFerence(newFerence);
 
-    return earth.getRadius() - EARTH_RADIUS; // разница в радиусах — это зазор
+    return earth.getRadius() - EARTH_RADIUS;
 }
 
-double calculatePoolCost() {
+double calculatePoolCost(int value) {
+    if (value <= 0) return 0;
+
     double poolRadius = 3.0;
     double roadWidth = 1.0;
 
@@ -23,6 +25,6 @@ double calculatePoolCost() {
     double roadArea = outer.getArea() - pool.getArea();
     double fenceLength = outer.getFerence();
 
-    double cost = roadArea * 1000 + fenceLength * 2000;
+    double cost = (roadArea * 1000 + fenceLength * 2000) * value;
     return cost;
 }
