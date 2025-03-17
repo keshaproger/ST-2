@@ -1,3 +1,5 @@
+// Copyright 2025 Коньков И.
+
 #include "circle.h"
 #include <cmath>
 
