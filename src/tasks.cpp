@@ -1,3 +1,5 @@
+// Copyright 2025 Коньков И.
+
 #include "tasks.h"
 #include "circle.h"
 
