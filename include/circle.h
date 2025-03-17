@@ -2,6 +2,7 @@
 
 #ifndef INCLUDE_CIRCLE_H_
 #define INCLUDE_CIRCLE_H_
+
 class Circle {
  private:
     double radius;
@@ -13,6 +14,7 @@ class Circle {
     void updateFromArea();
 
  public:
+    Circle();
     explicit Circle(double r);
 
     void setRadius(double r);
@@ -25,3 +27,4 @@ class Circle {
 };
 
 #endif // INCLUDE_CIRCLE_H_
+
