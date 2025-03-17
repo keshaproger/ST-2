@@ -4,6 +4,6 @@
 #define INCLUDE_TASKS_H_
 
 double calculateGap(double delta = 1.0);
-double calculatePoolCost();
+double calculatePoolCost(int value);
 
 #endif // INCLUDE_TASKS_H_
