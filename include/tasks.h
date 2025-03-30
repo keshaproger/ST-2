@@ -1,9 +1,8 @@
-// Copyright 2025 Коньков И.
-
+// Copyright 2025 UNN-CS Team
 #ifndef INCLUDE_TASKS_H_
 #define INCLUDE_TASKS_H_
 
-double calculateGap(double delta = 1.0);
-double calculatePoolCost(int value);
+double calculateRopeGap();
+double calculatePoolCost();
 
-#endif // INCLUDE_TASKS_H_
+#endif  // INCLUDE_TASKS_H_
