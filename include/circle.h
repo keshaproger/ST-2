@@ -1,6 +1,6 @@
 // Copyright 2024 New Developer
-#ifndef CIRCLE_H
-#define CIRCLE_H
+#ifndef INCLUDE_CIRCLE_H_
+#define INCLUDE_CIRCLE_H_
 
 class Circle {
 private:
@@ -23,4 +23,4 @@ public:
     double area() const;
 };
 
-#endif
+#endif // INCLUDE_CIRCLE_H_
