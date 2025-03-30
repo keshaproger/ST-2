@@ -3,7 +3,7 @@
 #define INCLUDE_CIRCLE_H_
 
 class Circle {
-private:
+ private:
     double m_radius;
     double m_circumference;
     double m_area;
@@ -11,13 +11,13 @@ private:
     void computeCircumference();
     void computeArea();
 
-public:
+ public:
     explicit Circle(double radius);
-    
+
     void setRadius(double radius);
     void setCircumference(double circumference);
     void setArea(double area);
-    
+
     double radius() const;
     double circumference() const;
     double area() const;
