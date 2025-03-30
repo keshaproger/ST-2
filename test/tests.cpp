@@ -101,7 +101,7 @@ TEST(PoolTaskTest, TotalCostCalculation) {
 TEST(PoolTaskTest, ZeroPathWidthCost) {
     Circle pool(3.0);
     Circle sameAsPool(3.0);
-    double cost = (sameAsPool.area() - pool.area()) * 1000 
+    double cost = (sameAsPool.area() - pool.area()) * 1000
                   + sameAsPool.circumference() * 2000;
     EXPECT_DOUBLE_EQ(cost, 6 * M_PI * 2000);
 }
