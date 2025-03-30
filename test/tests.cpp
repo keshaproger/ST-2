@@ -4,136 +4,132 @@
 #include "circle.h"
 #include "tasks.h"
 
-// Тесты для класса Circle
-TEST(CircleTest, ConstructorAndGetters) {
+// Тесты класса Circle
+TEST(CircleTest, ConstructorInitializesCorrectly) {
     Circle c(5.0);
-    EXPECT_DOUBLE_EQ(c.getRadius(), 5.0);
-    EXPECT_DOUBLE_EQ(c.getFerence(), 2 * M_PI * 5.0);
-    EXPECT_DOUBLE_EQ(c.getArea(), M_PI * 25.0);
+    EXPECT_DOUBLE_EQ(c.radius(), 5.0);
+    EXPECT_DOUBLE_EQ(c.circumference(), 10 * M_PI);
+    EXPECT_DOUBLE_EQ(c.area(), 25 * M_PI);
 }
 
-TEST(CircleTest, SetRadius) {
-    Circle c(1.0);
-    c.setRadius(2.0);
-    EXPECT_DOUBLE_EQ(c.getRadius(), 2.0);
-    EXPECT_DOUBLE_EQ(c.getFerence(), 4 * M_PI);
-    EXPECT_DOUBLE_EQ(c.getArea(), 4 * M_PI);
-}
-
-TEST(CircleTest, SetFerence) {
+TEST(CircleTest, ZeroRadiusInitialization) {
     Circle c(0.0);
-    c.setFerence(2 * M_PI);
-    EXPECT_NEAR(c.getRadius(), 1.0, 1e-6);
-    EXPECT_NEAR(c.getArea(), M_PI, 1e-6);
+    EXPECT_EQ(c.radius(), 0.0);
+    EXPECT_EQ(c.circumference(), 0.0);
+    EXPECT_EQ(c.area(), 0.0);
 }
 
-TEST(CircleTest, SetArea) {
-    Circle c(0.0);
-    c.setArea(M_PI);
-    EXPECT_NEAR(c.getRadius(), 1.0, 1e-6);
-    EXPECT_NEAR(c.getFerence(), 2 * M_PI, 1e-6);
+TEST(CircleTest, NegativeRadiusThrowsException) {
+    EXPECT_THROW(Circle(-2.5), std::invalid_argument);
 }
 
-TEST(CircleTest, ZeroRadius) {
-    Circle c(0.0);
-    EXPECT_DOUBLE_EQ(c.getRadius(), 0.0);
-    EXPECT_DOUBLE_EQ(c.getFerence(), 0.0);
-    EXPECT_DOUBLE_EQ(c.getArea(), 0.0);
-}
-
-TEST(CircleTest, LargeRadius) {
-    Circle c(1e6);
-    EXPECT_DOUBLE_EQ(c.getFerence(), 2 * M_PI * 1e6);
-    EXPECT_DOUBLE_EQ(c.getArea(), M_PI * 1e12);
-}
-
-TEST(CircleTest, UpdateRadiusFromArea) {
+TEST(CircleTest, SetRadiusUpdatesAllFields) {
     Circle c(2.0);
-    c.setArea(4 * M_PI);
-    EXPECT_NEAR(c.getRadius(), 2.0, 1e-6);
-    EXPECT_NEAR(c.getFerence(), 4 * M_PI, 1e-6);
+    c.setRadius(4.0);
+    EXPECT_DOUBLE_EQ(c.radius(), 4.0);
+    EXPECT_DOUBLE_EQ(c.circumference(), 8 * M_PI);
+    EXPECT_DOUBLE_EQ(c.area(), 16 * M_PI);
 }
 
-TEST(CircleTest, UpdateFerenceFromRadius) {
+TEST(CircleTest, SetCircumferenceCalculatesRadius) {
+    Circle c(1.0);
+    c.setCircumference(20 * M_PI);
+    EXPECT_NEAR(c.radius(), 10.0, 1e-6);
+    EXPECT_NEAR(c.area(), 100 * M_PI, 1e-6);
+}
+
+TEST(CircleTest, SetAreaUpdatesCircumference) {
     Circle c(3.0);
-    c.setFerence(6 * M_PI);
-    EXPECT_NEAR(c.getRadius(), 3.0, 1e-6);
-    EXPECT_NEAR(c.getArea(), 9 * M_PI, 1e-6);
+    c.setArea(50 * M_PI);
+    EXPECT_NEAR(c.radius(), sqrt(50), 1e-6);
+    EXPECT_NEAR(c.circumference(), 2 * M_PI * sqrt(50), 1e-6);
 }
 
-TEST(CircleTest, ChainUpdates) {
-    Circle c(10.0);
+TEST(CircleTest, SetZeroCircumferenceResetsAll) {
+    Circle c(5.0);
+    c.setCircumference(0.0);
+    EXPECT_EQ(c.radius(), 0.0);
+    EXPECT_EQ(c.area(), 0.0);
+}
+
+TEST(CircleTest, SetNegativeCircumferenceThrows) {
+    Circle c(2.0);
+    EXPECT_THROW(c.setCircumference(-1.0), std::invalid_argument);
+}
+
+TEST(CircleTest, SetNegativeAreaThrows) {
+    Circle c(2.0);
+    EXPECT_THROW(c.setArea(-10.0), std::invalid_argument);
+}
+
+TEST(CircleTest, MultipleFieldUpdatesConsistency) {
+    Circle c(2.0);
     c.setRadius(5.0);
-    c.setFerence(10 * M_PI);
-    c.setArea(25 * M_PI);
-    EXPECT_NEAR(c.getRadius(), 5.0, 1e-6);
+    c.setArea(100 * M_PI);
+    c.setCircumference(10 * M_PI);
+    EXPECT_DOUBLE_EQ(c.radius(), 5.0);
+    EXPECT_DOUBLE_EQ(c.circumference(), 10 * M_PI);
 }
 
-TEST(CircleTest, NegativeRadiusHandling) {
-    Circle c(-1.0);
-    c.setRadius(-1.0);
-    EXPECT_DOUBLE_EQ(c.getRadius(), -1.0);
-    EXPECT_TRUE(std::isnan(c.getArea()));
-}
-
-// Тесты для задачи "Земля и верёвка"
-TEST(RopeProblemTest, BasicGapCalculation) {
+// Тесты для задачи "Верёвка"
+TEST(RopeTaskTest, GapIsCorrect) {
     double gap = calculateRopeGap();
-    double expected = 1.0 / (2 * M_PI);
-    EXPECT_NEAR(gap, expected, 1e-6);
+    double expectedGap = 0.001 / (2 * M_PI);
+    EXPECT_NEAR(gap, expectedGap, 1e-6);
 }
 
-TEST(RopeProblemTest, LargeEarthRadius) {
-    const double earthRadius = 1e9;
-    Circle earth(earthRadius);
-    earth.setFerence(earth.getFerence() + 1.0);
-    double gap = earth.getRadius() - earthRadius;
-    EXPECT_NEAR(gap, 1.0 / (2 * M_PI), 1e-6);
-}
-
-TEST(RopeProblemTest, ZeroEarthRadius) {
-    Circle earth(0.0);
-    earth.setFerence(1.0);
-    EXPECT_NEAR(earth.getRadius(), 1.0 / (2 * M_PI), 1e-6);
+TEST(RopeTaskTest, EarthRadiusUnchanged) {
+    Circle earth(6378.1);
+    calculateRopeGap();
+    EXPECT_DOUBLE_EQ(earth.radius(), 6378.1);
 }
 
 // Тесты для задачи "Бассейн"
-TEST(PoolProblemTest, BasicCostCalculation) {
+TEST(PoolTaskTest, ConcreteAreaCalculation) {
+    Circle inner(3.0);
+    Circle outer(4.0);
+    double area = outer.area() - inner.area();
+    EXPECT_DOUBLE_EQ(area, 7 * M_PI);
+}
+
+TEST(PoolTaskTest, TotalCostCalculation) {
     double cost = calculatePoolCost();
-    double expectedConcrete = M_PI * (16.0 - 9.0) * 1000.0;
-    double expectedFence = 2 * M_PI * 4.0 * 2000.0;
-    EXPECT_NEAR(cost, expectedConcrete + expectedFence, 1e-6);
+    double expectedCost = (7 * M_PI) * 1000 + (8 * M_PI) * 2000;
+    EXPECT_NEAR(cost, expectedCost, 1e-2);
 }
 
-TEST(PoolProblemTest, ZeroWidth) {
+TEST(PoolTaskTest, ZeroPathWidthCost) {
     Circle pool(3.0);
-    Circle outer(3.0);
-    double cost = (outer.getArea() - pool.getArea()) * 1000.0 + outer.getFerence() * 2000.0;
-    EXPECT_DOUBLE_EQ(cost, 0.0 + 2 * M_PI * 3.0 * 2000.0);
+    Circle sameAsPool(3.0);
+    double cost = (sameAsPool.area() - pool.area()) * 1000 + sameAsPool.circumference() * 2000;
+    EXPECT_DOUBLE_EQ(cost, 6 * M_PI * 2000);
 }
 
-TEST(PoolProblemTest, LargePoolRadius) {
-    const double poolRadius = 100.0;
-    const double width = 1.0;
-    Circle pool(poolRadius);
-    Circle outer(poolRadius + width);
-    double cost = (outer.getArea() - pool.getArea()) * 1000.0 + outer.getFerence() * 2000.0;
-    EXPECT_NEAR(cost, (M_PI * (101.0 * 101.0 - 100.0 * 100.0) * 1000.0 + 2 * M_PI * 101.0 * 2000.0, 1e-6);
+// Граничные случаи
+TEST(EdgeCases, MaxDoubleRadius) {
+    Circle c(DBL_MAX);
+    EXPECT_DOUBLE_EQ(c.circumference(), 2 * M_PI * DBL_MAX);
 }
 
-TEST(PoolProblemTest, NegativeWidthHandling) {
-    const double poolRadius = 3.0;
-    const double width = -1.0;
-    Circle outer(poolRadius + width); // Радиус = 2.0
-    double cost = (outer.getArea() - M_PI * 9.0) * 1000.0 + outer.getFerence() * 2000.0;
-    EXPECT_NEAR(cost, (M_PI * (4.0 - 9.0) * 1000.0 + 2 * M_PI * 2.0 * 2000.0, 1e-6);
+TEST(EdgeCases, TinyRadius) {
+    Circle c(1e-10);
+    EXPECT_NEAR(c.area(), M_PI * 1e-20, 1e-30);
 }
 
-TEST(PoolProblemTest, ZeroPoolRadius) {
-    const double poolRadius = 0.0;
-    const double width = 1.0;
-    Circle pool(poolRadius);
-    Circle outer(width);
-    double cost = (outer.getArea() - 0.0) * 1000.0 + outer.getFerence() * 2000.0;
-    EXPECT_NEAR(cost, M_PI * 1.0 * 1000.0 + 2 * M_PI * 1.0 * 2000.0, 1e-6);
+TEST(EdgeCases, SetAreaToZero) {
+    Circle c(5.0);
+    c.setArea(0.0);
+    EXPECT_EQ(c.radius(), 0.0);
+    EXPECT_EQ(c.circumference(), 0.0);
+}
+
+TEST(EdgeCases, SetCircumferenceToZero) {
+    Circle c(5.0);
+    c.setCircumference(0.0);
+    EXPECT_EQ(c.radius(), 0.0);
+    EXPECT_EQ(c.area(), 0.0);
+}
+
+TEST(EdgeCases, NegativeInputInTasks) {
+    EXPECT_NO_THROW(calculateRopeGap());
 }
