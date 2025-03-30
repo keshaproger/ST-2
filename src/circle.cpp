@@ -23,7 +23,7 @@ void Circle::setRadius(double radius) {
 }
 
 void Circle::setCircumference(double circumference) {
-    if (circumference < 0) 
+    if (circumference < 0)
         throw std::invalid_argument("Circumference must be non-negative");
     m_circumference = circumference;
     m_radius = circumference / (2 * M_PI);
