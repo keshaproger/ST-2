@@ -1,48 +1,41 @@
 // Copyright 2024 New Developer
 #include "circle.h"
 #include <cmath>
-
-constexpr double PI = acos(-1.0); // Использована константа через acos
+#include <stdexcept>
 
 Circle::Circle(double radius) {
     setRadius(radius);
 }
 
-void Circle::updateFromRadius() {
-    m_circumference = 2 * PI * m_radius;
-    m_area = PI * m_radius * m_radius;
+void Circle::computeCircumference() {
+    m_circumference = 2 * M_PI * m_radius;
 }
 
-void Circle::updateFromCircumference() {
-    m_radius = m_circumference / (2 * PI);
-    m_area = PI * m_radius * m_radius;
+void Circle::computeArea() {
+    m_area = M_PI * m_radius * m_radius;
 }
 
-void Circle::updateFromArea() {
-    m_radius = sqrt(m_area / PI);
-    m_circumference = 2 * PI * m_radius;
-}
-
-// Дополнительные проверки в сеттерах
 void Circle::setRadius(double radius) {
-    if (radius < 0) throw std::invalid_argument("Invalid radius");
+    if (radius < 0) throw std::invalid_argument("Radius must be non-negative");
     m_radius = radius;
-    updateFromRadius();
+    computeCircumference();
+    computeArea();
 }
 
 void Circle::setCircumference(double circumference) {
-    if (circumference < 0) throw std::invalid_argument("Invalid length");
+    if (circumference < 0) throw std::invalid_argument("Circumference must be non-negative");
     m_circumference = circumference;
-    updateFromCircumference();
+    m_radius = circumference / (2 * M_PI);
+    computeArea();
 }
 
 void Circle::setArea(double area) {
-    if (area < 0) throw std::invalid_argument("Invalid area");
+    if (area < 0) throw std::invalid_argument("Area must be non-negative");
     m_area = area;
-    updateFromArea();
+    m_radius = sqrt(area / M_PI);
+    computeCircumference();
 }
 
-// Геттеры
-double Circle::getRadius() const { return m_radius; }
-double Circle::getCircumference() const { return m_circumference; }
-double Circle::getArea() const { return m_area; }
+double Circle::radius() const { return m_radius; }
+double Circle::circumference() const { return m_circumference; }
+double Circle::area() const { return m_area; }
