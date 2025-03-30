@@ -17,6 +17,6 @@ double calculatePoolCost() {
 
     double concreteCost = (poolWithPath.area() - pool.area()) * 1000;
     double fenceCost = poolWithPath.circumference() * 2000;
-    
+
     return concreteCost + fenceCost;
 }
